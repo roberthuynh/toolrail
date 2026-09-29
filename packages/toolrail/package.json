@@ -1,0 +1,101 @@
+{
+  "name": "toolrail",
+  "version": "0.0.1",
+  "description": "State-driven WebMCP tool surfaces for the web: ordered registration, output budgets, commit-before-resolve execution, confirm-gated writes, and an on-page rail + call trace. Extracted from Boardspeak.",
+  "license": "MIT",
+  "author": "Robert Huynh",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roberthuynh/toolrail.git",
+    "directory": "packages/toolrail"
+  },
+  "homepage": "https://webmcp.huynhrobert.com",
+  "bugs": "https://github.com/roberthuynh/toolrail/issues",
+  "keywords": [
+    "webmcp",
+    "modelcontext",
+    "browser-agents",
+    "chatgpt",
+    "react",
+    "tools",
+    "mcp"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./react": {
+      "import": {
+        "types": "./dist/react/index.d.ts",
+        "default": "./dist/react/index.js"
+      },
+      "require": {
+        "types": "./dist/react/index.d.cts",
+        "default": "./dist/react/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsup",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src tests",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check:publish": "publint && attw --pack . --ignore-rules cjs-resolves-to-esm"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0 || ^19.0.0",
+    "react-dom": "^18.2.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@testing-library/react": "^16.3.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "eslint": "^9.39.5",
+    "jsdom": "^30.1.1",
+    "publint": "^0.3.24",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.71.0",
+    "vitest": "^5.0.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "typesVersions": {
+    "*": {
+      "react": [
+        "./dist/react/index.d.ts"
+      ]
+    }
+  }
+}

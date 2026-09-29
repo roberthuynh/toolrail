@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "types": [
+      "vitest/globals"
+    ],
+    "ignoreDeprecations": "6.0"
+  },
+  "include": [
+    "src",
+    "tests"
+  ]
+}
