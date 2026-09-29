@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { useIsomorphicLayoutEffect } from "./isomorphic";
 
 export type ToolConfirm = (message: string, signal?: AbortSignal) => Promise<boolean>;
 
@@ -77,7 +78,9 @@ export function ToolConfirmProvider({
     },
     [activateNext],
   );
-  finishRef.current = finish;
+  useIsomorphicLayoutEffect(() => {
+    finishRef.current = finish;
+  }, [finish]);
 
   const confirm = useCallback<ToolConfirm>(
     (message, signal) => {

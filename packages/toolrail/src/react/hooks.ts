@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState, useSyncExternalStore } from "react";
+import { useIsomorphicLayoutEffect } from "./isomorphic";
 import { createRevisionWaiter, createSerialExecutor, type SerialExecutorOptions } from "../executor";
 import { mountSurface, type MountedSurface, type SurfaceBuilder } from "../surface";
 import { createTraceStore, type TraceEntry, type TraceStore } from "../trace";
@@ -27,12 +28,16 @@ export interface ToolSurfaceStatus {
 export function useToolSurface<S>(state: S, build: SurfaceBuilder<S>, options: UseToolSurfaceOptions = {}): ToolSurfaceStatus {
   const tools = useMemo(() => build(state), [build, state]);
   const toolsRef = useRef(tools);
-  toolsRef.current = tools;
+  useIsomorphicLayoutEffect(() => {
+    toolsRef.current = tools;
+  }, [tools]);
   const mountedRef = useRef<MountedSurface | null>(null);
   const [registered, setRegistered] = useState<readonly string[]>([]);
   const [supported, setSupported] = useState(false);
   const onErrorRef = useRef(options.onError);
-  onErrorRef.current = options.onError;
+  useIsomorphicLayoutEffect(() => {
+    onErrorRef.current = options.onError;
+  });
   const { modelContext } = options;
 
   useEffect(() => {
@@ -123,7 +128,9 @@ export interface ToolExecutorHandle {
 /** A serial, traced executor whose `execute` closure always sees the latest render. */
 export function useToolExecutor(options: UseToolExecutorOptions): ToolExecutorHandle {
   const optionsRef = useRef(options);
-  optionsRef.current = options;
+  useIsomorphicLayoutEffect(() => {
+    optionsRef.current = options;
+  });
   const [store] = useState(() => options.store ?? createTraceStore());
   const executor = useMemo(
     () =>
